@@ -25,7 +25,7 @@ variable "key_name" {
 
 variable "instance_tags" {
   type = "list"
-  default = ["K8s-Master", "K8s-Node"]
+  default = ["k8s-Master", "k8s-Node"]
 }
 variable "security_group" {
   default = "sg-0aaa3aac86f3cdc08"
