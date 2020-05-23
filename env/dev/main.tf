@@ -79,8 +79,7 @@ command =  "echo 'masters' > hosts1"
 }
 provisioner "local-exec" {
  command = "echo '${element(module.k8sMaster.k8s_public_ip.*,0)}' >> hosts1"
- on_failure = continue
-   }
+ }
 provisioner "local-exec" {
     command=  "echo 'workers' >> hosts1"
 }
@@ -89,19 +88,15 @@ provisioner "local-exec" {
  }
 provisioner "local-exec" {
  command = "echo '${element(module.k8shost.k8s_public_ip.*,1)}' >> hosts1"
- on_failure = continue
  }
 provisioner "local-exec" {
- command = "aws ec2 wait instance-status-ok --instance-ids '${element(module.k8shost.k8s_public_ip.*,0)}'"
- on_failure = continue
+ command = "aws ec2 wait instance-status-ok --instance-ids '${element(module.k8shost.k8s_public_ip.*,0)}' --profile default >> hosts1"
  }
 provisioner "local-exec" {
  command = "aws ec2 wait instance-status-ok --instance-ids '${element(module.k8shost.k8s_public_ip.*,1)}'"
- on_failure = continue
  }
 provisioner "local-exec" {
  command = "aws ec2 wait instance-status-ok --instance-ids '${element(module.k8sMaster.k8s_public_ip.*,0)}'"
- on_failure = continue
  }
    
 }
